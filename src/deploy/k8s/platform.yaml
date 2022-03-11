@@ -1,0 +1,18 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platforms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platformapi
+  template:
+    metadata:
+      labels:
+        app: platformapi
+    spec:
+      containers:
+        - name: platformapi
+          image: ir0nsidee/platformapi:latest
+          

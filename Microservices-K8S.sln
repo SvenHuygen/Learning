@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4208429E-353D-4B7A-945E-8D6B9813B084}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{1AEDC4AD-444C-470E-8F27-BB4FE93A195E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{463FE0AA-C09A-4B04-9CFF-60AF7B1C0AB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Command", "Command", "{3ACD5C45-C6AB-41E9-B37E-34400356DB00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{A819594A-60AA-423C-A930-8F79A8FA6A6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{2CDE2394-48AA-4B7D-9960-904F192FB0F9}"
+	ProjectSection(SolutionItems) = preProject
+		src\deploy\k8s\platform.yaml = src\deploy\k8s\platform.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformApi", "src\services\PlatformApi\PlatformApi.csproj", "{ECABE5EC-F448-4B89-8574-BD93D474B9BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AEDC4AD-444C-470E-8F27-BB4FE93A195E} = {4208429E-353D-4B7A-945E-8D6B9813B084}
+		{463FE0AA-C09A-4B04-9CFF-60AF7B1C0AB4} = {1AEDC4AD-444C-470E-8F27-BB4FE93A195E}
+		{3ACD5C45-C6AB-41E9-B37E-34400356DB00} = {1AEDC4AD-444C-470E-8F27-BB4FE93A195E}
+		{A819594A-60AA-423C-A930-8F79A8FA6A6D} = {4208429E-353D-4B7A-945E-8D6B9813B084}
+		{2CDE2394-48AA-4B7D-9960-904F192FB0F9} = {A819594A-60AA-423C-A930-8F79A8FA6A6D}
+		{ECABE5EC-F448-4B89-8574-BD93D474B9BF} = {463FE0AA-C09A-4B04-9CFF-60AF7B1C0AB4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED869EC3-5496-4067-90D8-111F5A235522}
+	EndGlobalSection
+EndGlobal
