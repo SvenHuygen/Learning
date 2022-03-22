@@ -22,6 +22,8 @@ namespace PlatformApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
+            Console.WriteLine("--> Get All Called.");
+            _logger.LogWarning("--> Get All Called.");
             var all =  await _platformService.GetAll();
             if (all == null) return NotFound();
             return Ok(all);
