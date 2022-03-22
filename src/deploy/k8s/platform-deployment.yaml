@@ -1,7 +1,7 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: platforms-deployment
+  name: platform-deployment
 spec:
   replicas: 1
   selector:
@@ -15,4 +15,17 @@ spec:
       containers:
         - name: platformapi
           image: ir0nsidee/platformapi:latest
-          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: platformapi
+  ports:
+  - name: platformapi
+    protocol: TCP
+    port: 80
+    targetPort: 80          

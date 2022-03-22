@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{2CDE2394-48A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformApi", "src\services\PlatformApi\PlatformApi.csproj", "{ECABE5EC-F448-4B89-8574-BD93D474B9BF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandApi", "src\services\CommandApi\CommandApi.csproj", "{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECABE5EC-F448-4B89-8574-BD93D474B9BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{A819594A-60AA-423C-A930-8F79A8FA6A6D} = {4208429E-353D-4B7A-945E-8D6B9813B084}
 		{2CDE2394-48AA-4B7D-9960-904F192FB0F9} = {A819594A-60AA-423C-A930-8F79A8FA6A6D}
 		{ECABE5EC-F448-4B89-8574-BD93D474B9BF} = {463FE0AA-C09A-4B04-9CFF-60AF7B1C0AB4}
+		{76B4EB5E-B9C7-4C6A-A368-ADD03DB7E77E} = {3ACD5C45-C6AB-41E9-B37E-34400356DB00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED869EC3-5496-4067-90D8-111F5A235522}

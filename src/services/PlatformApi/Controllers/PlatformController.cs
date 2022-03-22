@@ -27,7 +27,7 @@ namespace PlatformApi.Controllers
             return Ok(all);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(typeof(PlatformReadDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
@@ -44,7 +44,7 @@ namespace PlatformApi.Controllers
         {
             var created = await _platformService.Create(dto);
             if(created == null) return NotFound();
-            return CreatedAtRoute(nameof(GetById), created);
+            return CreatedAtRoute("GetById", new {id = created.Id} ,created);
         }
     }
 }

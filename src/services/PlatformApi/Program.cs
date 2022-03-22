@@ -3,6 +3,8 @@ using PlatformApi;
 using PlatformApi.Business;
 using PlatformApi.Business.Abstractions;
 using PlatformApi.Data;
+using PlatformApi.HttpDataServices;
+using PlatformApi.HttpDataServices.Abstractions;
 using Serilog;
 using System.Reflection;
 
@@ -18,6 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPlatformService, PlatformService>();
+
+builder.Services.AddHttpClient<ICommandDataClient, CommandDataClient>();
 
 builder.Services.AddControllers();
 
