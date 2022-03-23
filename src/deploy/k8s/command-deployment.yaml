@@ -1,3 +1,4 @@
+#command-deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +17,7 @@ spec:
         - name: commandapi
           image: ir0nsidee/commandapi:latest
 ---
+#command-clusterip
 apiVersion: v1
 kind: Service
 metadata:

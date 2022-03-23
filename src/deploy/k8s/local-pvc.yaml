@@ -1,0 +1,11 @@
+# Persistent Volume Claim for local K8S. If you're working on cloud env, you need to setup a storage class, persistent volume and corresponding claims.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: platform-mssql-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi

@@ -29,7 +29,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PlatformDbContext>(options =>
 {
-    options.UseInMemoryDatabase("InMemoryPlatforms");
+    if(builder.Environment.IsProduction()){
+        options.UseSqlServer(configuration.GetConnectionString("platform-mssql"));
+    } else {
+        options.UseInMemoryDatabase("InMemoryPlatforms");
+    }
 });
 
 var app = builder.Build();
