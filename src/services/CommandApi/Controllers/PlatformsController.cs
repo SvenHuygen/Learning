@@ -1,3 +1,4 @@
+using CommandApi.Business.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandApi.Controllers
@@ -7,11 +8,21 @@ namespace CommandApi.Controllers
     public class PlatformController : ControllerBase
     {
         private readonly ILogger<CommandController> _logger;
-        //private readonly ICommandService _commandService;
+        private readonly ICommandService _commandService;
 
-        public PlatformController(ILogger<CommandController> logger)
+        public PlatformController(ILogger<CommandController> logger, ICommandService commandService)
         {
             _logger = logger;
+            _commandService = commandService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPlatforms()
+        {
+            var result = await _commandService.GetAllPlatforms();
+            if(result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPost]

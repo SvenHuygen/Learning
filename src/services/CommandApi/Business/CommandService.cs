@@ -22,7 +22,11 @@ namespace CommandApi.Business
         {
             if(dto == null) throw new ArgumentNullException(nameof(dto));
             
-            var created = await _context.Commands.AddAsync(_mapper.Map<Command>(dto));
+            var newCommand = _mapper.Map<Command>(dto);
+            newCommand.Id = Guid.NewGuid();
+            newCommand.PlatformId = platformId;
+
+            var created = await _context.Commands.AddAsync(newCommand);
 
             return _mapper.Map<CommandReadDto>(created);
         }

@@ -1,17 +1,47 @@
+using CommandApi.Business.Abstractions;
+using CommandApi.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandApi.Controllers
 {
     [ApiController]
-    [Route("api/c/[controller]s")]
+    [Route("api/c/platforms/{platformId}/[controller]s")]
     public class CommandController : ControllerBase
     {
         private readonly ILogger<CommandController> _logger;
-        //private readonly ICommandService _commandService;
+        private readonly ICommandService _commandService;
 
-        public CommandController(ILogger<CommandController> logger)
+        public CommandController(ILogger<CommandController> logger, ICommandService commandService)
         {
             _logger = logger;
+            _commandService = commandService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCommandsForPlatform(Guid platformId){
+            var result = await _commandService.GetCommandsForPlatform(platformId);
+
+            if(result == null) return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet("{commandId}", Name = "GetCommandForPlatform")]
+        public async Task<IActionResult> GetCommandForPlatform(Guid platformId, Guid commandId){
+            var result = await _commandService.GetCommand(platformId, commandId);
+
+            if(result == null) return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCommandForPlatform(Guid platformId, CommandCreateDto dto){
+            var found = await _commandService.GetPlatformById(platformId);
+            if(found == null) return NotFound("Platform not found.");
+
+            var command = await _commandService.CreateCommand(platformId, dto);
+
+            return CreatedAtRoute("GetCommandForPlatform", new {platformId = command.PlatformId, commandApi = command.Id} ,command);
         }
     }
 }
