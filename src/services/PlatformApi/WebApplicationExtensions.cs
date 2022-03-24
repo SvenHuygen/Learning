@@ -45,7 +45,8 @@ namespace PlatformApi
         {
             if (context.Database.IsRelational())
             {
-                context.Database.Migrate();
+                context.Database.EnsureCreated();
+                
             }
             seeder(context,services);
         }
