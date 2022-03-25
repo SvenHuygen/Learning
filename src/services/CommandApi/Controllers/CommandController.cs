@@ -22,6 +22,7 @@ namespace CommandApi.Controllers
             var result = await _commandService.GetCommandsForPlatform(platformId);
 
             if(result == null) return NotFound();
+            
             return Ok(result);
         }
 

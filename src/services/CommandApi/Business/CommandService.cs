@@ -56,11 +56,20 @@ namespace CommandApi.Business
 
         public async Task<IEnumerable<CommandReadDto>> GetCommandsForPlatform(Guid platformId)
         {
+            var found = await GetPlatformById(platformId);
+            if(found == null) return null;
             return _mapper.Map<List<CommandReadDto>>(
                 await _context.Commands
                 .Where(c => c.PlatformId == platformId)
                 .OrderBy(c => c.Platform.Name)
                 .ToListAsync()
+            );
+        }
+
+        public async Task<PlatformReadDto> GetExternalPlatformById(Guid platformId)
+        {
+             return _mapper.Map<PlatformReadDto>(
+                await _context.Platforms.FirstOrDefaultAsync(x => x.ExternalId == platformId)
             );
         }
 

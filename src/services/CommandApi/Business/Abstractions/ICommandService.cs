@@ -9,6 +9,8 @@ namespace CommandApi.Business.Abstractions
 
         Task<PlatformReadDto> GetPlatformById(Guid platformId);
 
+        Task<PlatformReadDto> GetExternalPlatformById(Guid platformId);
+
         Task<PlatformReadDto> CreatePlatform(PlatformCreateDto dto);
 
         Task<IEnumerable<CommandReadDto>> GetCommandsForPlatform(Guid platformId);

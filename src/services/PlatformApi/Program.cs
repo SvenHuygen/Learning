@@ -3,8 +3,11 @@ using PlatformApi;
 using PlatformApi.Business;
 using PlatformApi.Business.Abstractions;
 using PlatformApi.Data;
+using PlatformApi.GrpcDataServices;
 using PlatformApi.HttpDataServices;
 using PlatformApi.HttpDataServices.Abstractions;
+using PlatformApi.MessageBus;
+using PlatformApi.MessageBus.Abstractions;
 using Serilog;
 using System.Reflection;
 
@@ -20,8 +23,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPlatformService, PlatformService>();
-
 builder.Services.AddHttpClient<ICommandDataClient, CommandDataClient>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
+builder.Services.AddGrpc();
 
 builder.Services.AddControllers();
 
@@ -68,7 +73,14 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints => {
+    endpoints.MapControllers();
+    endpoints.MapGrpcService<GrpcPlatformService>();
+    
+    endpoints.MapGet("/protos/platforms.proto", async context => {
+        await context.Response.WriteAsync(System.IO.File.ReadAllText("Protos/platforms.proto"));
+    });
+});
 
 app.Run();
 

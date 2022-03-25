@@ -9,11 +9,13 @@ namespace PlatformApi.HttpDataServices
     {
         private readonly HttpClient _client;
         private readonly IConfiguration _config;
+        private readonly ILogger<CommandDataClient> _logger;
 
-        public CommandDataClient(HttpClient client, IConfiguration config)
+        public CommandDataClient(HttpClient client, IConfiguration config, ILogger<CommandDataClient> logger)
         {
             _client = client;
             _config = config;
+            _logger = logger;
         }
 
         public async Task SendPlatformToCommand(PlatformReadDto dto)
@@ -30,11 +32,11 @@ namespace PlatformApi.HttpDataServices
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("POST OK");
+                _logger.LogInformation("POST OK");
             }
             else
             {
-                Console.WriteLine("POST NOT SO OK :(");
+                _logger.LogInformation("POST NOT OK");
             }
         }
     }

@@ -2,6 +2,11 @@ using System.Reflection;
 using CommandApi.Business;
 using CommandApi.Business.Abstractions;
 using CommandApi.Data;
+using CommandApi.GrpcDataServices;
+using CommandApi.GrpcDataServices.Abstractions;
+using CommandApi.MessageBus;
+using CommandApi.MessageBus.EventProcessor;
+using CommandApi.MessageBus.EventProcessor.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using PlatformApi;
 using Serilog;
@@ -18,6 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICommandService, CommandService>();
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
+builder.Services.AddScoped<IPlatformGrpcClient, PlatformGrpcClient>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,7 +36,7 @@ builder.Services.AddDbContext<CommandDbContext>(options =>
     // if(builder.Environment.IsProduction()){
     //     options.UseSqlServer(configuration.GetConnectionString("command-mssql"));
     // } else {
-        options.UseInMemoryDatabase("InMemoryPlatforms");
+    options.UseInMemoryDatabase("InMemoryPlatforms");
     //}
 });
 
@@ -37,13 +45,19 @@ var app = builder.Build();
 
 try
 {
-    app.MigrateDbContext<CommandDbContext>((context, services) =>
+    using (var serviceScope = app.Services.CreateScope())
     {
-        var env = services.GetService<IWebHostEnvironment>();
-        var logger = services.GetService<ILogger<CommandDbContextSeeder>>();
-        
-        new CommandDbContextSeeder().SeedAsync(context, env, logger).Wait();
-    });
+        app.MigrateDbContext<CommandDbContext>((context, services) =>
+            {
+                var env = services.GetService<IWebHostEnvironment>();
+                var logger = services.GetService<ILogger<CommandDbContextSeeder>>();
+
+                new CommandDbContextSeeder(services.GetRequiredService<IPlatformGrpcClient>(), services.GetRequiredService<ICommandService>())
+                .SeedAsync(context, env, logger)
+                .Wait();
+            }
+        );
+    }
 }
 catch (Exception ex)
 {
