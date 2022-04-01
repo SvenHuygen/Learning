@@ -25,19 +25,21 @@ namespace CommandApi.Business
             var newCommand = _mapper.Map<Command>(dto);
             newCommand.Id = Guid.NewGuid();
             newCommand.PlatformId = platformId;
+            
+            await _context.Commands.AddAsync(newCommand);
+            await _context.SaveChangesAsync();
 
-            var created = await _context.Commands.AddAsync(newCommand);
-
-            return _mapper.Map<CommandReadDto>(created);
+            return _mapper.Map<CommandReadDto>(newCommand);
         }
 
         public async Task<PlatformReadDto> CreatePlatform(PlatformCreateDto dto)
         {
             if(dto == null) throw new ArgumentNullException(nameof(dto));
           
-            var created = await _context.Platforms.AddAsync(_mapper.Map<Platform>(dto));
+            await _context.Platforms.AddAsync(_mapper.Map<Platform>(dto));
+            await _context.SaveChangesAsync();
 
-            return _mapper.Map<PlatformReadDto>(created);
+            return _mapper.Map<PlatformReadDto>(dto);
         }
 
         public async Task<IEnumerable<PlatformReadDto>> GetAllPlatforms()

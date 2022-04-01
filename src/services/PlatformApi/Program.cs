@@ -73,6 +73,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseRouting();
+
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
     endpoints.MapGrpcService<GrpcPlatformService>();
@@ -100,10 +102,17 @@ Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
 
 IConfiguration GetConfiguration()
 {
+#if DEBUG
     var builder = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
+        .AddEnvironmentVariables(); 
+        return builder.Build();
+#else
+   var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables();
-
-    return builder.Build();
+         return builder.Build();
+#endif
 }

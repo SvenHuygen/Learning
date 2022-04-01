@@ -25,12 +25,13 @@ namespace CommandApi.MessageBus.EventProcessor
         {
             var eventType = DetermineEvent(message);
 
-            switch(eventType)
+            switch (eventType)
             {
                 case MessageBusEventConstants.PLATFORM_PUBLISHED:
-                break;
+                    AddPlatform(message);
+                    break;
                 default:
-                break;
+                    break;
             }
         }
 
@@ -40,7 +41,7 @@ namespace CommandApi.MessageBus.EventProcessor
 
             var eventType = JsonSerializer.Deserialize<BaseEvent>(serializedEvent);
 
-            switch(eventType.Event)
+            switch (eventType.Event)
             {
                 case MessageBusEventConstants.PLATFORM_PUBLISHED:
                     _logger.LogInformation("Platform published event detected.");
@@ -53,7 +54,7 @@ namespace CommandApi.MessageBus.EventProcessor
 
         private async void AddPlatform(string platformEventMessage)
         {
-            using (var scope =  _scopeFactory.CreateScope())
+            using (var scope = _scopeFactory.CreateScope())
             {
                 var platformService = scope.ServiceProvider.GetRequiredService<ICommandService>();
 
@@ -63,15 +64,16 @@ namespace CommandApi.MessageBus.EventProcessor
                 {
                     var platformCreateDto = _mapper.Map<PlatformCreateDto>(platformPublishedDto);
 
-                    if(await platformService.GetExternalPlatformById(platformCreateDto.ExternalId) == null )
+                    if (await platformService.GetExternalPlatformById(platformCreateDto.ExternalId) == null)
                     {
                         await platformService.CreatePlatform(platformCreateDto);
-                    } 
+                    }
                     else
                     {
                         _logger.LogWarning("Platform already exists.");
                     }
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     _logger.LogError($"Could not add platform to DB: {ex.Message}");
                 }
