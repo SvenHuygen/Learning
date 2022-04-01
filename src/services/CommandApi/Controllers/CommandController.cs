@@ -18,6 +18,8 @@ namespace CommandApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CommandReadDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommandsForPlatform(Guid platformId){
             var result = await _commandService.GetCommandsForPlatform(platformId);
             if(result == null) return NotFound();
@@ -25,6 +27,8 @@ namespace CommandApi.Controllers
         }
 
         [HttpGet("{commandId}", Name = "GetCommandForPlatform")]
+        [ProducesResponseType(typeof(CommandReadDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommandForPlatform(Guid platformId, Guid commandId){
             var result = await _commandService.GetCommand(platformId, commandId);
 
@@ -34,6 +38,8 @@ namespace CommandApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateCommandForPlatform(Guid platformId, CommandCreateDto dto){
             var found = await _commandService.GetPlatformById(platformId);
             if(found == null) return NotFound("Platform not found.");

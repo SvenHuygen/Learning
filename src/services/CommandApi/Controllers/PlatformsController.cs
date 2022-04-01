@@ -1,4 +1,5 @@
 using CommandApi.Business.Abstractions;
+using CommandApi.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandApi.Controllers
@@ -17,6 +18,8 @@ namespace CommandApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<PlatformReadDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPlatforms()
         {
             var result = await _commandService.GetAllPlatforms();
@@ -27,9 +30,10 @@ namespace CommandApi.Controllers
 
 
         [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult TestInboundConnection()
         {
-            Console.WriteLine("--> Inboud POST # Command Service");
+            _logger.LogInformation("--> Inboud POST # Command Service");
 
             return Ok("POST Test Success!");
         }
