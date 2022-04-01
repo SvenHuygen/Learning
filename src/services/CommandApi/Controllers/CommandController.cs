@@ -20,9 +20,7 @@ namespace CommandApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCommandsForPlatform(Guid platformId){
             var result = await _commandService.GetCommandsForPlatform(platformId);
-
             if(result == null) return NotFound();
-            
             return Ok(result);
         }
 

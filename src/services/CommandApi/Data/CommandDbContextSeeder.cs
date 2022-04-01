@@ -29,7 +29,19 @@ namespace CommandApi.Data
                 }
                 if (!context.Commands.Any())
                 {
-                    await context.Commands.AddRangeAsync(await GetDefaultCommands());
+
+                    var commands = await GetDefaultCommands();
+
+                    await context.Commands.AddRangeAsync(commands);
+
+                    var plat = context.Platforms.Where(x => x.Name == "Kubernetes").FirstOrDefault();
+
+                    commands.ToList().ForEach(c =>
+                    {
+                        plat.Commands.Add(c);
+                    });
+
+                    context.Platforms.Update(plat);
 
                     await context.SaveChangesAsync();
                 }
@@ -59,7 +71,6 @@ namespace CommandApi.Data
 
             Platform kubernetesPlatform = platforms.FirstOrDefault(x => x.Name == "Kubernetes");
             Guid kubernetesPlatformId = kubernetesPlatform.Id;
-            Console.WriteLine($"Kubernetes platform ID: {kubernetesPlatformId}");
 
             return new List<Command>
             {

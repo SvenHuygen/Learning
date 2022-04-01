@@ -9,5 +9,7 @@ namespace PlatformApi.Business.Abstractions
         Task<PlatformReadDto> GetById(Guid id);
 
         Task<PlatformReadDto> Create(PlatformCreateDto dto);
+
+        Task<bool> DeleteAll();
     }
 }

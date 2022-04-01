@@ -25,6 +25,7 @@ namespace CommandApi.Controllers
             return Ok(result);
         }
 
+
         [HttpPost]
         public IActionResult TestInboundConnection()
         {

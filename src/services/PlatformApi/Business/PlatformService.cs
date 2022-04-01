@@ -17,13 +17,15 @@ namespace PlatformApi.Business
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _client;
         private readonly IMessageBusClient _mbClient;
+        private readonly ILogger<PlatformService> _logger;
 
-        public PlatformService(PlatformDbContext context, IMapper mapper, ICommandDataClient client, IMessageBusClient mbClient)
+        public PlatformService(PlatformDbContext context, IMapper mapper, ICommandDataClient client, IMessageBusClient mbClient, ILogger<PlatformService> logger)
         {
             _context = context;
             _mapper = mapper;
             _client = client;
             _mbClient = mbClient;
+            _logger = logger;
         }
 
         public async Task<PlatformReadDto> Create(PlatformCreateDto dto)
@@ -41,7 +43,7 @@ namespace PlatformApi.Business
             // }
             // catch (Exception ex)
             // {
-            //     Console.WriteLine(ex.Message);
+            //     _logger.LogInformation(ex.Message);
             // }
 
             try
@@ -52,10 +54,22 @@ namespace PlatformApi.Business
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logger.LogInformation(ex.Message);
             }
 
             return result;
+        }
+
+        public async Task<bool> DeleteAll()
+        {
+            try{
+                _context.Platforms.RemoveRange(_context.Platforms);
+                await _context.SaveChangesAsync();
+                return true;
+            } catch(Exception ex){
+                _logger.LogError($"Error while trying to delete all platforms: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<IEnumerable<PlatformReadDto>> GetAll()

@@ -11,11 +11,13 @@ namespace CommandApi.Business
     {
         private readonly CommandDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<CommandService> _logger;
 
-        public CommandService(CommandDbContext context, IMapper mapper)
+        public CommandService(CommandDbContext context, IMapper mapper, ILogger<CommandService> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<CommandReadDto> CreateCommand(Guid platformId, CommandCreateDto dto)
@@ -60,6 +62,9 @@ namespace CommandApi.Business
         {
             var found = await GetPlatformById(platformId);
             if(found == null) return null;
+
+            _logger.LogInformation($"Commands: {await _context.Commands.Where(c => c.PlatformId == platformId).FirstOrDefaultAsync()}");
+
             return _mapper.Map<List<CommandReadDto>>(
                 await _context.Commands
                 .Where(c => c.PlatformId == platformId)

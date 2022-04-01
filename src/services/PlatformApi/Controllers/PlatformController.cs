@@ -48,5 +48,17 @@ namespace PlatformApi.Controllers
             if(created == null) return NotFound();
             return CreatedAtRoute("GetById", new {id = created.Id} ,created);
         }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteAll(){
+            var response = await _platformService.DeleteAll();
+            if(response){
+                return NoContent();
+            } else {
+                return BadRequest("Something went wrong while deleting all platforms.");
+            }
+        }
     }
 }
