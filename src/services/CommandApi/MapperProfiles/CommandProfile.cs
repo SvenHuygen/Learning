@@ -31,6 +31,7 @@ namespace CommandApi.MapperProfiles
             CreateMap<GrpcPlatformReadModel, Platform>()
             .ForMember(x => x.ExternalId, x => x.MapFrom(y => y.PlatformId))
             .ForMember(x => x.Name, x => x.MapFrom(y => y.Name))
+            .ForMember(x => x.Id, x => x.MapFrom(y => Guid.NewGuid()))
             .ForMember(x => x.Commands, x => x.Ignore());
         }
     }

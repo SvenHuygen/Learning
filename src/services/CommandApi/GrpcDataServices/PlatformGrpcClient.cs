@@ -30,6 +30,9 @@ namespace CommandApi.GrpcDataServices
             try
             {
                 var response = await client.GetAllPlatformsAsync(request);
+                _logger.LogInformation($"gRPC Raw Response: {response}");
+                var mapped = _mapper.Map<List<Platform>>(response.PlatformList);
+
                 return _mapper.Map<IEnumerable<Platform>>(response.PlatformList);
             }
             catch (Exception ex)

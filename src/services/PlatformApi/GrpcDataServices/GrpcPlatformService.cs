@@ -19,6 +19,7 @@ namespace PlatformApi.GrpcDataServices
 
         public override async Task<GetAllPlatformsResponse> GetAllPlatforms(GetAllPlatformsRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("gRPC GetAllPlatforms triggered");
             var response = new GetAllPlatformsResponse();
             var platforms = await _platformService.GetAll();
 

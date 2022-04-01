@@ -14,18 +14,19 @@ namespace CommandApi.Data
             _grpcClient = grpcClient;
             _commandService = commandService;
         }
+
         public async Task SeedAsync(CommandDbContext context, IWebHostEnvironment env, ILogger<CommandDbContextSeeder> logger, int? retry = 0)
         {
             int retryForAvaiability = 0;
 
             try
             {
-                // if (!context.Platforms.Any())
-                // {
-                //     await context.Platforms.AddRangeAsync(await GetRemotePlatformsWithGrpc());
+                if (!context.Platforms.Any())
+                {
+                    await context.Platforms.AddRangeAsync(await GetRemotePlatformsWithGrpc());
 
-                //     await context.SaveChangesAsync();
-                // }
+                    await context.SaveChangesAsync();
+                }
                 if (!context.Commands.Any())
                 {
                     await context.Commands.AddRangeAsync(await GetDefaultCommands());
@@ -45,7 +46,8 @@ namespace CommandApi.Data
                 }
             }
         }
-        private async Task<IEnumerable<Platform>> GetRemotePlatformsWithGrpc(){
+        private async Task<IEnumerable<Platform>> GetRemotePlatformsWithGrpc()
+        {
             return await _grpcClient.ReturnAllPlatforms();
         }
 
@@ -53,9 +55,11 @@ namespace CommandApi.Data
         private async Task<IEnumerable<Command>> GetDefaultCommands()
         {
 
-            // var platforms = await GetRemotePlatformsWithGrpc();
+            var platforms = await GetRemotePlatformsWithGrpc();
 
-            // var kubernetesPlatformId = platforms.FirstOrDefault(x => x.Name == "Kubernetes").Id;
+            Platform kubernetesPlatform = platforms.FirstOrDefault(x => x.Name == "Kubernetes");
+            Guid kubernetesPlatformId = kubernetesPlatform.Id;
+            Console.WriteLine($"Kubernetes platform ID: {kubernetesPlatformId}");
 
             return new List<Command>
             {
@@ -64,21 +68,21 @@ namespace CommandApi.Data
                     Id = Guid.NewGuid(),
                     Man = "return all deployments",
                     CommandLineName = "kubectl get deployments",
-                    // PlatformId = kubernetesPlatformId
+                    PlatformId = kubernetesPlatformId
                 },
                 new Command
                 {
                     Id =  Guid.NewGuid(),
                     Man = "return all services",
                     CommandLineName = "kubectl get services",
-                    // PlatformId = kubernetesPlatformId
+                    PlatformId = kubernetesPlatformId
                 },
                 new Command
                 {
                     Id= Guid.NewGuid(),
                     Man = "return all pods",
                     CommandLineName = "kubectl get pods",
-                    // PlatformId = kubernetesPlatformId
+                    PlatformId = kubernetesPlatformId
                 }
             };
         }
