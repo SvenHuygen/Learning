@@ -67,7 +67,6 @@ namespace PlatformApi.Business
                 await _context.SaveChangesAsync();
                 return true;
             } catch(Exception ex){
-                _logger.LogError($"Error while trying to delete all platforms: {ex.Message}");
                 return false;
             }
         }

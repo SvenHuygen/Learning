@@ -16,7 +16,7 @@ namespace PlatformApi
 
                 try
                 {
-                    logger.LogInformation("Migration database associated with context {DbContextName}", typeof(TContext).Name);
+                    logger.LogInformation("Migrating database associated with context {DbContextName}", typeof(TContext).Name);
 
                     var retries = 10;
                     var retry = Policy.Handle<SqlException>()

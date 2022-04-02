@@ -22,8 +22,7 @@ namespace PlatformApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
-            _logger.LogInformation("--> Get All Called.");
-            _logger.LogWarning("--> Get All Called.");
+            _logger.LogInformation("Get All Platforms Called.");
             var all =  await _platformService.GetAll();
             if (all == null) return NotFound();
             return Ok(all);
@@ -34,6 +33,7 @@ namespace PlatformApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
+            _logger.LogInformation($"Get PlatformById Called with ID: {id}.");
             var found = await _platformService.GetById(id);
             if(found == null) return NotFound();
             return Ok(found);
@@ -44,6 +44,7 @@ namespace PlatformApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Create(PlatformCreateDto dto)
         {
+            _logger.LogInformation($"Get PlatformById Called with parmater: {dto.Name} -- {dto.Publisher} -- {dto.Cost}.");
             var created = await _platformService.Create(dto);
             if(created == null) return NotFound();
             return CreatedAtRoute("GetById", new {id = created.Id} ,created);
@@ -53,6 +54,7 @@ namespace PlatformApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteAll(){
+                 _logger.LogInformation("Delete All Called.");
             var response = await _platformService.DeleteAll();
             if(response){
                 return NoContent();

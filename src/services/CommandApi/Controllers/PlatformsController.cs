@@ -20,8 +20,9 @@ namespace CommandApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PlatformReadDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPlatforms()
+        public async Task<IActionResult> GetAllPlatforms()
         {
+            _logger.LogInformation("GetAllPlatforms Called");
             var result = await _commandService.GetAllPlatforms();
             if(result == null) return NotFound();
 
@@ -33,9 +34,9 @@ namespace CommandApi.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult TestInboundConnection()
         {
-            _logger.LogInformation("--> Inboud POST # Command Service");
+            _logger.LogInformation("TestInboundConnection Called");
 
-            return Ok("POST Test Success!");
+            return Ok("POST Success!");
         }
     }
 }

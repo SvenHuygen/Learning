@@ -20,19 +20,23 @@ namespace CommandApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CommandReadDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCommandsForPlatform(Guid platformId){
+        public async Task<IActionResult> GetCommandsForPlatform(Guid platformId)
+        {
+            _logger.LogInformation($"GetCommandsForPlatform Called with parameters: -PlatformId: {platformId}");
             var result = await _commandService.GetCommandsForPlatform(platformId);
-            if(result == null) return NotFound();
+            if (result == null) return NotFound();
             return Ok(result);
         }
 
         [HttpGet("{commandId}", Name = "GetCommandForPlatform")]
         [ProducesResponseType(typeof(CommandReadDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCommandForPlatform(Guid platformId, Guid commandId){
+        public async Task<IActionResult> GetCommandForPlatform(Guid platformId, Guid commandId)
+        {
+            _logger.LogInformation($"GetCommandForPlatform Called with parameters: -PlatformId: {platformId} -CommandId: {commandId}");
             var result = await _commandService.GetCommand(platformId, commandId);
 
-            if(result == null) return NotFound();
+            if (result == null) return NotFound();
 
             return Ok(result);
         }
@@ -40,13 +44,15 @@ namespace CommandApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> CreateCommandForPlatform(Guid platformId, CommandCreateDto dto){
+        public async Task<IActionResult> CreateCommandForPlatform(Guid platformId, CommandCreateDto dto)
+        {
+            _logger.LogInformation($"CreateCommandForPlatform Called with parameters: -PlatformId: {platformId} -Dto: {dto.CommandLineName} = {dto.Man}");
             var found = await _commandService.GetPlatformById(platformId);
-            if(found == null) return NotFound("Platform not found.");
+            if (found == null) return NotFound("Platform not found.");
 
             var command = await _commandService.CreateCommand(platformId, dto);
 
-            return CreatedAtRoute("GetCommandForPlatform", new {platformId = command.PlatformId, commandApi = command.Id} ,command);
+            return CreatedAtRoute("GetCommandForPlatform", new { platformId = command.PlatformId, commandApi = command.Id }, command);
         }
     }
 }

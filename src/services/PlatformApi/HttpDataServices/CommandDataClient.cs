@@ -28,6 +28,8 @@ namespace PlatformApi.HttpDataServices
 
             var httpServiceUrls = _config.GetSection("HttpServiceUrls").GetChildren().ToDictionary(x => x.Key, x => x.Value);
             
+            _logger.LogInformation("Sending POST request to Command Api.");
+
             var response = await _client.PostAsync(httpServiceUrls.GetValueOrDefault("CommandApi"), content);
 
             if (response.IsSuccessStatusCode)

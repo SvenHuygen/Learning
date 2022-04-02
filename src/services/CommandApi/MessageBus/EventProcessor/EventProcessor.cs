@@ -67,6 +67,7 @@ namespace CommandApi.MessageBus.EventProcessor
                     if (await platformService.GetExternalPlatformById(platformCreateDto.ExternalId) == null)
                     {
                         await platformService.CreatePlatform(platformCreateDto);
+                        _logger.LogInformation("New platform created.");
                     }
                     else
                     {

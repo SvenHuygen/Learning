@@ -63,8 +63,6 @@ namespace CommandApi.Business
             var found = await GetPlatformById(platformId);
             if(found == null) return null;
 
-            _logger.LogInformation($"Commands: {await _context.Commands.Where(c => c.PlatformId == platformId).FirstOrDefaultAsync()}");
-
             return _mapper.Map<List<CommandReadDto>>(
                 await _context.Commands
                 .Where(c => c.PlatformId == platformId)

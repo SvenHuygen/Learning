@@ -36,6 +36,7 @@ namespace CommandApi.MessageBus
 
         private void InitializeRabbitMQ()
         {
+            _logger.LogInformation("Initializing Message Bus");
             var rabbitMQConfig = _config.GetSection("RabbitMQ").GetChildren().ToDictionary(x => x.Key, x => x.Value);
 
             var conFactory = new ConnectionFactory()

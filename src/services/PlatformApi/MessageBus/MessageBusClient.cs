@@ -26,8 +26,6 @@ namespace PlatformApi.MessageBus
                 Port = int.Parse(rabbitMQConfig.GetValueOrDefault("Port"))
             };
 
-            _logger.LogInformation(conFactory.HostName + conFactory.Port);
-
             try
             {
                 _connection = conFactory.CreateConnection();
