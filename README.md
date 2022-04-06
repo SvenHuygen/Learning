@@ -1,5 +1,8 @@
 # Learning
 ### Repository where i store all my personal projects
+### This repository includes the following projects:
+
+- Microservices-K8S
 
 # Microservices-K8S
 
