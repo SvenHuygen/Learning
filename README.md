@@ -21,7 +21,7 @@
 
 Host file location for windows: C:/Windows/System32/drivers/etc
 
-# Terrafrombase
+# Terraformbase
 
 ### Very basic Azure DevOps pipeline using terraform to provision resources
 
