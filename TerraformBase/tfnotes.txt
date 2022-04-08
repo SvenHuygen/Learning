@@ -1,0 +1,20 @@
+You can use a .tfvars file to declare tf variables.
+
+Use this to split up tf files => microservices-k8s
+
+Need to persist Terraform.tfstate when using tf in a pipeline.
+
+In Azure
+=> resource group
+=> storage 
+=> storage account
+=> container (storage)
+=> can be done using tf
+
+
+Azure DevOps setup
+
+Add Service Connections to ARM (and docker hub)
+Create App Registration in Azure Portal Azure AD.
+Create Secrets in App Registration.
+Add Pipeline Library with ARM vars. (client id, client secret, subscription id, tenant id)
