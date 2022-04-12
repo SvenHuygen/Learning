@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL.Data
 {
-    public class GraphQLDBContext : DbContext
+    public class GraphQLDbContext : DbContext
     {
-        public GraphQLDBContext(DbContextOptions options) : base(options)
+        public GraphQLDbContext(DbContextOptions options) : base(options)
         {
             
         }
